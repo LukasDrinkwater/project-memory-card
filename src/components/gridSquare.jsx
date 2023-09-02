@@ -1,13 +1,11 @@
-function GridSquare(props) {
-  const image = props.images[2];
-
-  const handleAlbumClick = () => {
-    // when the album is clicked set its click state to true.
-  };
+function GridSquare({ artist, handleAlbumClick }) {
+  // const image = props.images[2];
 
   return (
-    <div className="gridSquare">
-      <img src={image} alt="album cover" />
+    <div className="gridSquare" onClick={() => handleAlbumClick(artist.id)}>
+      <img src={artist.images[2].url} alt={artist.name + " album cover"} />
     </div>
   );
 }
+
+export { GridSquare };

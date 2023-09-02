@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import "../src/styles/styles.css";
 import { Dropdown } from "./components/dropdown";
+import { Grid } from "./components/grid";
 
 // client id 4e880c468e6f436e8a4c96854549ff62
 // client secret 856834f470864f07926f81cf084d25ce
@@ -16,6 +18,8 @@ function App() {
 
   const [genre, setGenre] = useState("rock");
   const [artists, setArtists] = useState("");
+  const [score, setScore] = useState(0);
+  const [topScore, setTopScore] = useState(0);
   // const genre = "rock"; //change it go the user can select a genre
 
   const encodedRedirectUri = encodeURIComponent(redirectUri);
@@ -35,7 +39,7 @@ function App() {
       if (accessToken) {
         try {
           const response = await fetch(
-            `https://api.spotify.com/v1/search?q=genre:${genre}&type=artist&limit=10`,
+            `https://api.spotify.com/v1/search?q=genre:${genre}&type=artist&limit=12`,
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -44,7 +48,14 @@ function App() {
           );
 
           const data = await response.json();
-          setArtists(data.artists.items);
+
+          let updatedData = data.artists.items.map((artist) => ({
+            ...artist,
+            clicked: false,
+          }));
+
+          setArtists(updatedData);
+          console.log(artists);
 
           console.log(data);
           if (data.artists.items.length > 0) {
@@ -64,16 +75,6 @@ function App() {
     fetchRandomArtist();
   }, [accessToken, genre]);
 
-  console.log(artists);
-
-  if (accessToken) {
-    // Assuming `artists` is your array of artist objects
-    const updatedData = artists.map((artist) => ({
-      ...artist,
-      clicked: false,
-    }));
-  }
-
   const handleLogin = () => {
     window.location.href = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodedRedirectUri}&scope=${scopes.join(
       "%20"
@@ -83,9 +84,33 @@ function App() {
   const handleChangeGenre = (newGenre) => {
     setGenre(newGenre);
   };
+  console.log(accessToken);
 
   return (
     <div className="appContainer">
+      {/* <Grid artists={artists} /> need to have it so it loads if the api has
+      connected. ? or && */}
+      {/* {accessToken && artists ? <Grid artists={artists} /> : <p>loading</p>} */}
+      {/* {!artists && <button onClick={handleLogin}>Log in with spotify</button>} */}
+      {accessToken ? (
+        artists ? (
+          <>
+            <Grid
+              artists={artists}
+              setArtists={setArtists}
+              score={score}
+              setScore={setScore}
+              topScore={topScore}
+              setTopScore={setTopScore}
+            />
+          </>
+        ) : (
+          <p>Loading...</p>
+        )
+      ) : (
+        <button onClick={handleLogin}>Log in with spotify</button>
+      )}
+
       <h1>Random Artist</h1>
       <form>
         <input
@@ -94,19 +119,6 @@ function App() {
           onChange={(event) => handleChangeGenre(event.target.value)}
         />
       </form>
-      {accessToken ? (
-        randomArtist ? (
-          <div>
-            <h2>{randomArtist.name}</h2>
-            <p>Genres: {randomArtist.genres.join(", ")}</p>
-            {/* <img src={randomArtist.images[0].url} alt={randomArtist.name} /> */}
-          </div>
-        ) : (
-          <p>Loading ...</p>
-        )
-      ) : (
-        <button onClick={handleLogin}>Log in with spotify</button>
-      )}
     </div>
   );
 }
