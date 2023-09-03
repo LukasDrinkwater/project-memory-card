@@ -55,7 +55,7 @@ function App() {
           }));
 
           setArtists(updatedData);
-          console.log(artists);
+          // console.log(artists);
 
           console.log(data);
           if (data.artists.items.length > 0) {

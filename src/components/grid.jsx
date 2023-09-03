@@ -6,8 +6,26 @@ function Grid({ artists, setArtists, score, setScore, topScore, setTopScore }) {
   const handleAlbumClick = (id) => {
     // when the album is clicked set its click state to true.
     const updatedArtists = [...artists];
-    const index = updatedArtists.findIndex((artist) => artist.id === id);
-    console.log(index);
+    const index = updatedArtists.findIndex(
+      (artist) => artist.id === id && artist.clicked === false
+    );
+    // console.log(updatedArtists[index]);
+    // update clicked property.
+    if (index !== -1) {
+      updatedArtists[index].clicked = true;
+      setScore();
+    }
+
+    // if (!updatedArtists[index].clicked) {
+    //   setScore(score++);
+    //   console.log(score);
+    // }
+
+    checkIfAllClicked() && console.log("here");
+  };
+
+  const checkIfAllClicked = () => {
+    return artists.some((artist) => artist.clicked === false);
   };
 
   return (
