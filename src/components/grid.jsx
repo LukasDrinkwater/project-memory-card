@@ -1,7 +1,7 @@
 import { GridSquare } from "./gridSquare";
 
 function Grid({ artists, setArtists, score, setScore, topScore, setTopScore }) {
-  console.log(artists);
+  // console.log(artists);
 
   const handleAlbumClick = (id) => {
     // when the album is clicked set its click state to true.
@@ -9,23 +9,40 @@ function Grid({ artists, setArtists, score, setScore, topScore, setTopScore }) {
     const index = updatedArtists.findIndex(
       (artist) => artist.id === id && artist.clicked === false
     );
+
+    // console.log(index);
     // console.log(updatedArtists[index]);
     // update clicked property.
-    if (index !== -1) {
+    let newScore = score;
+    setTopScore(newScore);
+    if (index === -1) {
+      // reset game
+      console.log("game over");
+    } else if (index !== -1) {
+      newScore += 1;
       updatedArtists[index].clicked = true;
-      setScore();
+      setArtists(updatedArtists);
+      setScore(newScore);
+      // console.log(score);
     }
 
-    // if (!updatedArtists[index].clicked) {
-    //   setScore(score++);
-    //   console.log(score);
-    // }
+    if (index !== -1) {
+      newScore += 1;
+      updatedArtists[index].clicked = true;
+      setArtists(updatedArtists);
+      setScore(newScore);
+      // console.log(score);
+    }
 
-    checkIfAllClicked() && console.log("here");
-  };
+    const checkAllClicked = artists.some((artist) => artist.clicked === false);
 
-  const checkIfAllClicked = () => {
-    return artists.some((artist) => artist.clicked === false);
+    // if checkIfAllClicked run a function that updates the top score
+    // and pop up a div that you can click to reset the game.
+
+    if (!checkAllClicked) {
+      setTopScore(newScore);
+      console.log(newScore);
+    }
   };
 
   return (
@@ -39,6 +56,8 @@ function Grid({ artists, setArtists, score, setScore, topScore, setTopScore }) {
           handleAlbumClick={handleAlbumClick}
         />
       ))}
+      <p>{score}</p>
+      <p>topscore {topScore}</p>
     </div>
   );
 }

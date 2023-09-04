@@ -57,7 +57,7 @@ function App() {
           setArtists(updatedData);
           // console.log(artists);
 
-          console.log(data);
+          // console.log(data);
           if (data.artists.items.length > 0) {
             const ramdonIndex = Math.floor(
               Math.random() * data.artists.items.length
@@ -84,7 +84,7 @@ function App() {
   const handleChangeGenre = (newGenre) => {
     setGenre(newGenre);
   };
-  console.log(accessToken);
+  // console.log(accessToken);
 
   return (
     <div className="appContainer">
@@ -111,7 +111,7 @@ function App() {
         <button onClick={handleLogin}>Log in with spotify</button>
       )}
 
-      <h1>Random Artist</h1>
+      <h1>Random Artists</h1>
       <form>
         <input
           type="text"
