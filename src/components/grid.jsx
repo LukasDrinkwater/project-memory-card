@@ -1,6 +1,14 @@
 import { GridSquare } from "./gridSquare";
 
-function Grid({ artists, setArtists, score, setScore, topScore, setTopScore }) {
+function Grid({
+  artists,
+  setArtists,
+  score,
+  setScore,
+  topScore,
+  setTopScore,
+  refreshGame,
+}) {
   // console.log(artists);
 
   const handleAlbumClick = (id) => {
@@ -14,22 +22,16 @@ function Grid({ artists, setArtists, score, setScore, topScore, setTopScore }) {
     // console.log(updatedArtists[index]);
     // update clicked property.
     let newScore = score;
-    setTopScore(newScore);
+
     if (index === -1) {
       // reset game
+      setTopScore(newScore);
       console.log("game over");
     } else if (index !== -1) {
       newScore += 1;
       updatedArtists[index].clicked = true;
-      setArtists(updatedArtists);
-      setScore(newScore);
-      // console.log(score);
-    }
+      setArtists(refreshGame(updatedArtists));
 
-    if (index !== -1) {
-      newScore += 1;
-      updatedArtists[index].clicked = true;
-      setArtists(updatedArtists);
       setScore(newScore);
       // console.log(score);
     }
@@ -41,8 +43,11 @@ function Grid({ artists, setArtists, score, setScore, topScore, setTopScore }) {
 
     if (!checkAllClicked) {
       setTopScore(newScore);
-      console.log(newScore);
+
+      setArtists(refreshGame(updatedArtists));
     }
+
+    // refreshGame(updatedArtists);
   };
 
   return (

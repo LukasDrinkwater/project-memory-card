@@ -75,6 +75,30 @@ function App() {
     fetchRandomArtist();
   }, [accessToken, genre]);
 
+  // useEffect to refresh the order off the array.
+  // useEffect(
+  // () => {
+  const refreshGame = (array) => {
+    // function to refresh the game
+    // load new albums, reset current score.
+    let shuffledArray = [];
+    let usedIdexes = [];
+
+    let i = 0;
+    while (i < array.length) {
+      let randomNumber = Math.floor(Math.random() * array.length);
+      if (!usedIdexes.includes(randomNumber)) {
+        shuffledArray.push(array[randomNumber]);
+        usedIdexes.push(randomNumber);
+        i++;
+      }
+    }
+    return shuffledArray;
+  };
+  //   },
+  //   { artists }
+  // );
+
   const handleLogin = () => {
     window.location.href = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodedRedirectUri}&scope=${scopes.join(
       "%20"
@@ -102,6 +126,7 @@ function App() {
               setScore={setScore}
               topScore={topScore}
               setTopScore={setTopScore}
+              refreshGame={refreshGame}
             />
           </>
         ) : (
