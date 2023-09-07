@@ -16,6 +16,7 @@ function App() {
   const [accessToken, setAccessToken] = useState("");
 
   const [genre, setGenre] = useState("");
+  const [userInput, setUserInput] = useState("");
   const [artists, setArtists] = useState("");
   const [score, setScore] = useState(0);
   const [topScore, setTopScore] = useState(0);
@@ -38,7 +39,7 @@ function App() {
     //   setGenre(newGenre);
     // }
     chooseRandomGenre();
-  }, [genre]);
+  });
 
   useEffect(() => {
     const handleAuthentication = () => {
@@ -115,13 +116,25 @@ function App() {
   };
 
   const handleChangeGenre = (newGenre) => {
-    if (!newGenre) {
-      chooseRandomGenre();
-    } else {
+    // if (!newGenre) {
+    //   chooseRandomGenre();
+    //   console.log(genre);
+    // } else {
+    //   setGenre(newGenre);
+    // }
+    if (newGenre.trim() !== "") {
+      setUserInput(newGenre);
       setGenre(newGenre);
     }
   };
   // console.log(accessToken);
+
+  useEffect(() => {
+    if (userInput === "") {
+      chooseRandomGenre(); // If user input is empty, pick a random genre
+      console.log("here");
+    }
+  }, [userInput]);
 
   return (
     <div className="appContainer">

@@ -5,7 +5,6 @@
   text-align: center;
 }
 
-div,
 button {
   margin: 10px;
 }
@@ -76,7 +75,18 @@ button:focus-visible {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 5 columns with equal width */
   grid-auto-rows: auto; /* Automatically adjust row height */
-  gap: 10px; /* Adjust the gap between grid items */
+  gap: 5px; /* Adjust the gap between grid items */
+}
+
+.gridSquare {
+  border-color: #646cff;
+  border: 5px solid #646cff;
+  padding: 0px;
+  margin: 0px;
+}
+
+.gridSquare img {
+  vertical-align: middle;
 }
 
 /* FORM STYLES */
