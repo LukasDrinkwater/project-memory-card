@@ -78,3 +78,22 @@ button:focus-visible {
   grid-auto-rows: auto; /* Automatically adjust row height */
   gap: 10px; /* Adjust the gap between grid items */
 }
+
+/* FORM STYLES */
+
+.genreForm input {
+  width: 200px;
+  height: fit-content;
+  font-size: 2em;
+}
+
+/* SCORE STYLES */
+.scoreContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.scoreContainer p {
+  margin: 50px;
+  font-size: 2em;
+}

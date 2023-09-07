@@ -27,23 +27,21 @@ function Grid({
       // reset game
       setTopScore(newScore);
       console.log("game over");
+      setArtists(refreshGame(updatedArtists));
     } else if (index !== -1) {
       newScore += 1;
+
       updatedArtists[index].clicked = true;
       setArtists(refreshGame(updatedArtists));
-
       setScore(newScore);
       // console.log(score);
     }
 
     const checkAllClicked = artists.some((artist) => artist.clicked === false);
-
     // if checkIfAllClicked run a function that updates the top score
     // and pop up a div that you can click to reset the game.
-
     if (!checkAllClicked) {
       setTopScore(newScore);
-
       setArtists(refreshGame(updatedArtists));
     }
 
@@ -61,8 +59,6 @@ function Grid({
           handleAlbumClick={handleAlbumClick}
         />
       ))}
-      <p>{score}</p>
-      <p>topscore {topScore}</p>
     </div>
   );
 }

@@ -3,7 +3,9 @@ function GridSquare({ artist, handleAlbumClick }) {
 
   return (
     <div className="gridSquare" onClick={() => handleAlbumClick(artist.id)}>
-      <img src={artist.images[2].url} alt={artist.name + " album cover"} />
+      {artist && (
+        <img src={artist.images[2].url} alt={artist.name + " album cover"} />
+      )}
     </div>
   );
 }
