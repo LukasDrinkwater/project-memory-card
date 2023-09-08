@@ -9,7 +9,7 @@ import { Grid } from "./components/grid";
 
 function App() {
   const clientId = "4e880c468e6f436e8a4c96854549ff62";
-  const cliendSecret = "856834f470864f07926f81cf084d25ce";
+  // const cliendSecret = "856834f470864f07926f81cf084d25ce";
   const redirectUri = "http://localhost:5173/";
   const scopes = ["user-read-private", "user-read-email"]; // Add more scopes if needed
 
@@ -28,7 +28,7 @@ function App() {
     const genres = ["pop", "rock", "hip-hop", "jazz", "electronic", "country"];
     if (!genre) {
       let newGenre = genres[Math.floor(Math.random() * genres.length)];
-      console.log(newGenre);
+
       setGenre(newGenre);
     }
   };
@@ -76,7 +76,6 @@ function App() {
           }));
 
           setArtists(updatedData);
-          // console.log(artists);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -84,7 +83,7 @@ function App() {
     };
 
     fetchRandomArtist();
-  }, [accessToken, genre]);
+  }, [accessToken, genre, topScore]);
 
   // useEffect to refresh the order off the array.
 
@@ -116,40 +115,40 @@ function App() {
   };
 
   const handleChangeGenre = (newGenre) => {
-    // if (!newGenre) {
-    //   chooseRandomGenre();
-    //   console.log(genre);
-    // } else {
-    //   setGenre(newGenre);
-    // }
     if (newGenre.trim() !== "") {
       setUserInput(newGenre);
       setGenre(newGenre);
     }
   };
-  // console.log(accessToken);
 
   useEffect(() => {
-    if (userInput === "") {
-      chooseRandomGenre(); // If user input is empty, pick a random genre
-      console.log("here");
+    const genres = ["pop", "rock", "hip-hop", "jazz", "electronic", "country"];
+    if (userInput === "" || !userInput) {
+      let newGenre = genres[Math.floor(Math.random() * genres.length)];
+
+      setGenre(newGenre);
     }
   }, [userInput]);
 
   return (
     <div className="appContainer">
-      <h1>Random {genre} artists</h1>
-      <form className="genreForm">
-        <input
-          type="text"
-          placeholder="pick a genre"
-          onChange={(event) => handleChangeGenre(event.target.value)}
-        />
-      </form>
-      <div className="scoreContainer">
-        <p>Current Score: {score}</p>
-        <p>Top Score: {topScore}</p>
-      </div>
+      {accessToken && <h1>Random {genre} artists</h1>}
+
+      {accessToken && (
+        <form className="genreForm">
+          <input
+            type="text"
+            placeholder="pick a genre"
+            onChange={(event) => handleChangeGenre(event.target.value)}
+          />
+        </form>
+      )}
+      {accessToken && (
+        <div className="scoreContainer">
+          <p>Current Score: {score}</p>
+          <p>Top Score: {topScore}</p>
+        </div>
+      )}
       {accessToken ? (
         artists ? (
           <>
@@ -167,7 +166,10 @@ function App() {
           <p>Loading...</p>
         )
       ) : (
-        <button onClick={handleLogin}>Log in with spotify</button>
+        <>
+          <p>To start game click the login button</p>
+          <button onClick={handleLogin}>Log in with spotify</button>
+        </>
       )}
     </div>
   );

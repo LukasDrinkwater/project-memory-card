@@ -25,7 +25,10 @@ function Grid({
 
     if (index === -1) {
       // reset game
-      setTopScore(newScore);
+      if (score > topScore || topScore === 0) {
+        setTopScore(newScore);
+      }
+      setScore(0);
       console.log("game over");
       setArtists(refreshGame(updatedArtists));
     } else if (index !== -1) {
