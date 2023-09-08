@@ -119,6 +119,7 @@ function App() {
       setUserInput(newGenre);
       setGenre(newGenre);
     }
+    setUserInput(newGenre);
   };
 
   useEffect(() => {
